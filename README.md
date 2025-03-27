@@ -1,6 +1,6 @@
 # Infra
 
-This repository contains the infrastructure code for the project. We are using Terraform to manage the infrastructure on GCP.
+This repository contains the infrastructure code for the project. We use Terraform to manage the infrastructure on GCP.
 
 ## Installation
 
@@ -28,7 +28,7 @@ gcloud auth application-default login
 
 ## Usage
 
-Here are some useful Terraform commands.
+Here are some useful Terraform commands :
 
 ```bash
 terraform init      # Initialize the Terraform and download the provider plugins
