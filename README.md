@@ -39,7 +39,7 @@ terraform apply     # Apply the infrastructure changes
 terraform destroy   # Destroy the infrastructure
 ```
 
-Before running the `terraform apply` command, you need to set the variables and backend configuration. You can set the variables in the `terraform.tfvars` file and apply the backend configuration in the `backend.tf` file.
+If you are first time running the Terraform, you need to set the variables and backend configuration. You can set the variables in the `terraform.tfvars` file and apply the backend configuration in the `backend.tf` file.
 
 ```bash
 cd applications
