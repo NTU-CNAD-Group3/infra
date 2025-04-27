@@ -118,11 +118,11 @@ jobs:
             });
 
             // 2. Prepare format of the comment
-            const output = `
+            const output = \`
               # 🛠 Terraform Plan Result
 
               ${{ needs.fmt-validate-plan.outputs.results }}
-            `;
+            \`;
 
             // 3. Post or update the comment
             if (botComment) {
