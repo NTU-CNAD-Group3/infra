@@ -9,14 +9,9 @@ permissions:
 jobs:
   tflint:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         env: [prod]
-
-    # strategy:
-    #   matrix:
-    #     env: [dev, prod]
 
     steps:
       - name: Checkout source code
@@ -27,28 +22,22 @@ jobs:
         with:
           tflint_version: v0.56.0
 
-      - name: Show version
+      - name: Show TFLint version
         run: tflint --version
 
       - name: Init TFLint
         run: tflint --init
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          # https://github.com/terraform-linters/tflint/blob/master/docs/user-guide/plugins.md#avoiding-rate-limiting
 
       - name: Run TFLint
         run: tflint --format compact --recursive
 
   fmt-validate-plan:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         env: [prod]
-
-    # strategy:
-    #   matrix:
-    #     env: [dev, prod]
 
     outputs:
       results: ${{ steps.collect.outputs.results }}
@@ -93,7 +82,7 @@ jobs:
         run: |
           echo "results<<EOF" >> $GITHUB_OUTPUT
           echo "- Environment: **${{ matrix.env }}**" >> $GITHUB_OUTPUT
-          echo "  - 📖 Plan: \`${{ steps.plan.outcome }}\`" >> $GITHUB_OUTPUT
+          echo "- 📖 Plan: \`${{ steps.plan.outcome }}\`" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
   comment:
@@ -102,7 +91,8 @@ jobs:
     if: github.event_name == 'pull_request'
 
     steps:
-      - uses: actions/github-script@v7
+      - name: Comment Terraform Plan Result
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -118,11 +108,11 @@ jobs:
             });
 
             // 2. Prepare format of the comment
-            const output = \`
-              # 🛠 Terraform Plan Result
+            const output = `
+              🛠 Terraform Plan Result
 
               ${{ needs.fmt-validate-plan.outputs.results }}
-            \`;
+            `;
 
             // 3. Post or update the comment
             if (botComment) {
