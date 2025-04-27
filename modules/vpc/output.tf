@@ -15,15 +15,15 @@ output "vpc_self_link" {
 
 output "subnet_name" {
   description = "The name of the subnet"
-  value       = google_compute_subnetwork.subnet.name
+  value       = google_compute_subnetwork.subnet_1.name
 }
 
 output "subnet_self_link" {
   description = "The self link of the subnet"
-  value       = google_compute_subnetwork.subnet.self_link
+  value       = google_compute_subnetwork.subnet_1.self_link
 }
 
 output "subnet_secondary_ranges" {
   description = "The secondary ranges of the subnet"
-  value       = google_compute_subnetwork.subnet.secondary_ip_range
+  value       = google_compute_subnetwork.subnet_1.secondary_ip_range
 }
