@@ -46,7 +46,7 @@ module "gcs" {
   source = "../modules/gcs"
 
   region      = local.region
-  bucket_name   = local.frontend_bucket_name
+  bucket_name = local.frontend_bucket_name
 
   depends_on = [module.apis]
 }
