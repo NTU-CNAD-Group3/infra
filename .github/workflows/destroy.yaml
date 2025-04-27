@@ -1,0 +1,41 @@
+name: Destroy
+
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: "Environment to destroy"
+        required: true
+        default: "prod"
+        type: choice
+        options:
+          - prod
+          - dev
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.11.2
+
+      - name: Setup google service account
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets[format('GCP_CREDENTIALS_{0}', github.event.inputs.env)] }}
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+        working-directory: ${{ github.workspace }}/${{ github.event.inputs.env }}
+
+      - name: Terraform Destroy
+        id: destroy
+        run: terraform destroy --auto-approve
+        working-directory: ${{ github.workspace }}/${{ github.event.inputs.env }}
