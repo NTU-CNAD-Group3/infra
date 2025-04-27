@@ -4,7 +4,7 @@ locals {
   zones  = ["asia-east1-a"]
 
   # vpc
-  vpc_name    = "cnad-prod-network"
+  vpc_name = "cnad-prod-network"
 
   # frontend bucket
   # frontend_bucket_name = "cnad-prod-frontend"
@@ -25,8 +25,8 @@ module "vpc" {
   source = "../modules/vpc"
 
   project_id = var.project_id
-  region      = local.region
-  vpc_name    = local.vpc_name
+  region     = local.region
+  vpc_name   = local.vpc_name
 }
 
 # module "gcs" {

@@ -7,8 +7,8 @@ locals {
 }
 
 resource "google_project_service" "apis" {
-  for_each = toset(local.required_apis)
-  service = each.key
+  for_each           = toset(local.required_apis)
+  service            = each.key
   disable_on_destroy = false
 }
 
@@ -18,16 +18,16 @@ resource "google_compute_network" "vpc_network" {
 
   auto_create_subnetworks = false
 
-  depends_on              = [google_project_service.apis]
+  depends_on = [google_project_service.apis]
 }
 
 # create the subnet
 resource "google_compute_subnetwork" "subnet_1" {
-  name          = "${var.vpc_name}-subnet1"
-  region                   = var.region
-  network       = google_compute_network.vpc_network.id
+  name    = "${var.vpc_name}-subnet1"
+  region  = var.region
+  network = google_compute_network.vpc_network.id
 
-  ip_cidr_range = var.subnet_cidr
+  ip_cidr_range            = var.subnet_cidr
   private_ip_google_access = true
 
   # create the secondary ranges for gke
@@ -63,8 +63,8 @@ resource "google_compute_firewall" "allow_internal" {
 
 # allow load balancer to gke health checks
 resource "google_compute_firewall" "allow_health_check" {
-  name      = "${var.vpc_name}-allow-health-check"
-  network   = google_compute_network.vpc_network.name
+  name    = "${var.vpc_name}-allow-health-check"
+  network = google_compute_network.vpc_network.name
 
   direction = "INGRESS"
 
@@ -83,15 +83,15 @@ resource "google_compute_firewall" "allow_health_check" {
 # let vm instances access the internet
 resource "google_compute_router" "router" {
   name    = "${var.vpc_name}-router"
-  region = var.region
+  region  = var.region
   network = google_compute_network.vpc_network.id
 
 }
 resource "google_compute_router_nat" "nat" {
-  name                               = "${var.vpc_name}-nat"
-  region                 = var.region
-  router                             = google_compute_router.router.name
-  
+  name   = "${var.vpc_name}-nat"
+  region = var.region
+  router = google_compute_router.router.name
+
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
-  nat_ip_allocate_option = "AUTO_ONLY"
+  nat_ip_allocate_option             = "AUTO_ONLY"
 }
