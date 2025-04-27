@@ -5,7 +5,6 @@ locals {
 
   # vpc
   vpc_name    = "cnad-prod-network"
-  subnet_name = "cnad-prod-subnet"
 
   # frontend bucket
   # frontend_bucket_name = "cnad-prod-frontend"
@@ -25,10 +24,8 @@ locals {
 module "vpc" {
   source = "../modules/vpc"
 
-  project_id  = var.project_id
   region      = local.region
   vpc_name    = local.vpc_name
-  subnet_name = local.subnet_name
 }
 
 # module "gcs" {
