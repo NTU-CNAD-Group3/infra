@@ -38,7 +38,7 @@ jobs:
       - name: Setup google service account - ${{ matrix.env }}
         uses: google-github-actions/auth@v2
         with:
-          credentials_json: ${{ secrets['GCP_CREDENTIALS_' + matrix.env] }}
+          credentials_json: ${{ secrets[format('GCP_CREDENTIALS_{0}', matrix.env)] }}
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
