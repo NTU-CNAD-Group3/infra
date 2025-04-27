@@ -5,11 +5,12 @@ locals {
 
   # apis
   enable_apis = [
-    "compute.googleapis.com",
-    "servicenetworking.googleapis.com",
+    "artifactregistry.googleapis.com",
     "cloudresourcemanager.googleapis.com",
+    "compute.googleapis.com",
     "container.googleapis.com",
-    "artifactregistry.googleapis.com"
+    "servicenetworking.googleapis.com",
+    "iam.googleapis.com"
   ]
 
   # vpc
