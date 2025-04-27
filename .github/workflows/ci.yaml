@@ -39,9 +39,6 @@ jobs:
       matrix:
         env: [prod]
 
-    outputs:
-      results: ${{ steps.collect.outputs.results }}
-
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
