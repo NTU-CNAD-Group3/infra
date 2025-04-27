@@ -26,6 +26,8 @@ After installing the SDK, you need to authenticate with GCP. Run the following c
 gcloud auth application-default login
 ```
 
+To authenticate with GCP in github actions, you need to create a service account, download the JSON key file and save it in the github secrets (`GCP_CREDENTIALS_PROD`).
+
 ## Usage
 
 Here are some useful Terraform commands :
@@ -39,24 +41,4 @@ terraform apply     # Apply the infrastructure changes
 terraform destroy   # Destroy the infrastructure
 ```
 
-If you are first time running the Terraform, you need to set the variables and backend configuration. You can set the variables in the `terraform.tfvars` file and apply the backend configuration in the `backend.tf` file.
-
-```bash
-cd applications
-cp terraform.tfvars.example terraform.tfvars
-```
-
-```bash
-terraform init
-terraform apply -target=google_storage_bucket.terraform_state
-
-# modify the backend configuration
-terraform init -migrate-state # reinitialize the Terraform with the new backend configuration
-```
-
-## Architecture
-
-The components of the infrastructure are as follows:
-
-1. Cloud DNS
-2. Google Kubernetes Engine (GKE)
+For now, we only have one environment, which is the prod environment. If you want to modify the infrastructure, you can do it in the `prod` folder and craeate a pull request. Once the pull request is merged, it will be automatically deployed to the prod environment.
