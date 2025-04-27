@@ -82,7 +82,7 @@ jobs:
         run: |
           echo "results<<EOF" >> $GITHUB_OUTPUT
           echo "- Environment: **${{ matrix.env }}**" >> $GITHUB_OUTPUT
-          echo "- 📖 Plan: \`${{ steps.plan.outcome }}\`" >> $GITHUB_OUTPUT
+          echo "- 📖 Plan: ${{ steps.plan.outcome }}" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
   comment:
