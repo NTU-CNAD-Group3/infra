@@ -1,0 +1,58 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        env: [prod]
+        include:
+          - env: prod
+            project_id: cnad-group3
+
+    # strategy:
+    #   matrix:
+    #     env: [dev, prod]
+    #     include:
+    #       - env: dev
+    #         project_id: cnad-group3-dev
+    #       - env: prod
+    #         project_id: cnad-group3-prod
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.11.2
+
+      - name: Setup google service account - ${{ matrix.env }}
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets['GCP_CREDENTIALS_' + matrix.env] }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ matrix.project_id }}
+
+      - name: Use gcloud CLI
+        run: gcloud info
+
+      - name: Terraform Init - ${{ matrix.env }}
+        run: terraform init -input=false
+        working-directory: ${{ github.workspace }}/${{ matrix.env }}
+
+      - name: Terraform Apply - ${{ matrix.env }}
+        if: github.ref == 'refs/heads/main'
+        run: terraform apply -auto-approve -input=false
+        working-directory: ${{ github.workspace }}/${{ matrix.env }}
