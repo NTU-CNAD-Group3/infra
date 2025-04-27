@@ -10,17 +10,17 @@ output "zones" {
   value = local.zones
 }
 
-# output "network_name" {
-#   value = module.network.network_name
-# }
+output "network_name" {
+  value = module.vpc.vpc_name
+}
 
-# output "subnet_name" {
-#   value = module.network.subnet_name
-# }
+output "subnet_name" {
+  value = module.vpc.subnet_name
+}
 
-# output "bucket_name" {
-#   value = module.gcs.bucket_name
-# }
+output "bucket_name" {
+  value = module.gcs.bucket_name
+}
 
 # output "cluster_name" {
 #   value = module.gke.cluster_name

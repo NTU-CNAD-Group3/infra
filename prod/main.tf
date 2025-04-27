@@ -14,7 +14,7 @@ locals {
   vpc_name = "cnad-prod-network"
 
   # frontend bucket
-  # frontend_bucket_name = "cnad-prod-frontend"
+  frontend_bucket_name = "cnad-prod-frontend"
 
   # gke
   # cluster_name = "cnad-prod-gke"
@@ -42,13 +42,14 @@ module "vpc" {
   depends_on = [module.apis]
 }
 
-# module "gcs" {
-#   source = "../modules/gcs"
+module "gcs" {
+  source = "../modules/gcs"
 
-#   location      = local.region
-#   workspace_env = local.env
-#   bucket_name   = local.frontend_bucket_name
-# }
+  region      = local.region
+  bucket_name = local.frontend_bucket_name
+
+  depends_on = [module.apis]
+}
 
 # module "gke" {
 #   source = "../modules/gke"
