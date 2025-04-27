@@ -1,3 +1,8 @@
+variable "project_id" {
+  type        = string
+  description = "The project ID to use"
+}
+
 variable "region" {
   type        = string
   description = "The region to use"
