@@ -41,4 +41,10 @@ terraform apply     # Apply the infrastructure changes
 terraform destroy   # Destroy the infrastructure
 ```
 
+## Flow
+
 For now, we only have one environment, which is the prod environment. If you want to modify the infrastructure, you can do it in the `prod` folder and craeate a pull request. Once the pull request is merged, it will be automatically deployed to the prod environment.
+
+Before merging the pull request, make sure the CI is passing. The CI will run the `tflint`, `terraform fmt`, `terraform validate` and `terraform plan` commands to check if the code is valid and left the comments which describe the changes that will be applied to the infrastructure.
+
+If you want to deploy or destroy it manually, you can do it in the actions tab in the github. You can find the workflow named `Deploy` and `Destroy` in the actions tab. You can select which environment you want to deploy or destroy. The workflow will run the `terraform apply` or `terraform destroy` command in the selected environment.
