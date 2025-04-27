@@ -1,17 +1,3 @@
-# enable the required services
-locals {
-  required_apis = [
-    "compute.googleapis.com",
-    "servicenetworking.googleapis.com"
-  ]
-}
-
-resource "google_project_service" "apis" {
-  for_each           = toset(local.required_apis)
-  service            = each.key
-  disable_on_destroy = false
-}
-
 # create the network
 resource "google_compute_network" "vpc_network" {
   name = var.vpc_name

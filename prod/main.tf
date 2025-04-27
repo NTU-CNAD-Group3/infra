@@ -3,6 +3,13 @@ locals {
   region = "asia-east1"
   zones  = ["asia-east1-a"]
 
+  # apis
+  enable_apis = [
+    "compute.googleapis.com",
+    "servicenetworking.googleapis.com",
+    "cloudresourcemanager.googleapis.com"
+  ]
+
   # vpc
   vpc_name = "cnad-prod-network"
 
@@ -20,6 +27,11 @@ locals {
   # domain_name = "cnad-group3.com"
 }
 
+module "apis" {
+  source = "../modules/apis"
+
+  apis = local.enable_apis
+}
 
 module "vpc" {
   source = "../modules/vpc"
@@ -27,6 +39,8 @@ module "vpc" {
   project_id = var.project_id
   region     = local.region
   vpc_name   = local.vpc_name
+
+  depends_on = [module.apis]
 }
 
 # module "gcs" {
