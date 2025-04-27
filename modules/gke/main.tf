@@ -1,9 +1,9 @@
 # create the Artifact Registry repository to store the Docker images
 resource "google_artifact_registry_repository" "registry" {
   repository_id = var.repo_name
-  location = var.region
+  location      = var.region
 
-  format        = "DOCKER"
+  format = "DOCKER"
 }
 
 # create the service account for gke to read the images from Artifact Registry

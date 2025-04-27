@@ -19,13 +19,13 @@ locals {
   frontend_bucket_name = "cnad-prod-frontend"
 
   # gke
-  repo_name = "cnad-prod-repo"
-  cluster_name = "cnad-prod-gke"
+  repo_name       = "cnad-prod-repo"
+  cluster_name    = "cnad-prod-gke"
   cluster_version = "1.32.2-gke.1182003"
-  node_count   = 3
-  machine_type = "e2-medium"
-  disk_type    = "pd-standard"
-  disk_size    = 50
+  node_count      = 3
+  machine_type    = "e2-medium"
+  disk_type       = "pd-standard"
+  disk_size       = 50
 
   # lb
   # domain_name = "cnad-group3.com"
@@ -58,7 +58,6 @@ module "gcs" {
 module "gke" {
   source = "../modules/gke"
 
-  project_id              = var.project_id
   region                  = local.region
   node_locations          = local.zones
   repo_name               = local.repo_name
