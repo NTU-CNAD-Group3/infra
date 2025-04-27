@@ -36,8 +36,8 @@ module "apis" {
 module "vpc" {
   source = "../modules/vpc"
 
-  region     = local.region
-  vpc_name   = local.vpc_name
+  region   = local.region
+  vpc_name = local.vpc_name
 
   depends_on = [module.apis]
 }
