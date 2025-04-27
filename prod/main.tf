@@ -67,7 +67,7 @@ module "gke" {
   machine_type            = local.machine_type
   disk_type               = local.disk_type
   disk_size_gb            = local.disk_size
-  network_self_link       = module.vpc.network_self_link
+  network_self_link       = module.vpc.vpc_self_link
   subnet_self_link        = module.vpc.subnet_self_link
   subnet_secondary_ranges = module.vpc.subnet_secondary_ranges
 
