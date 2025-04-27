@@ -39,7 +39,7 @@ jobs:
       - name: Run TFLint
         run: tflint --format compact --recursive
 
-  lint-validate:
+  fmt-validate-plan:
     runs-on: ubuntu-latest
 
     strategy:
@@ -91,24 +91,13 @@ jobs:
       - name: Collect results
         id: collect
         run: |
-          echo "results<<EOF" >> $GITHUB_ENV
-          echo "::group::Collecting Results"
-
-          echo "- Environment: **${{ matrix.env }}**" >> results.txt
-          echo "  - 🖌 Format Check: \`${{ steps.fmt.outcome }}\`" >> results.txt
-          echo "  - ⚙️ Init: \`${{ steps.init.outcome }}\`" >> results.txt
-          echo "  - 🤖 Validate: \`${{ steps.validate.outcome }}\`" >> results.txt
-          echo "  - 📖 Plan: \`${{ steps.plan.outcome }}\`" >> results.txt
-          echo "" >> results.txt
-
-          cat results.txt
-          echo "::endgroup::"
-
-          cat results.txt >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          echo "results<<EOF" >> $GITHUB_OUTPUT
+          echo "- Environment: **${{ matrix.env }}**" >> $GITHUB_OUTPUT
+          echo "  - 📖 Plan: \`${{ steps.plan.outcome }}\`" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
   comment:
-    needs: lint-validate
+    needs: fmt-validate-plan
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
 
@@ -125,17 +114,14 @@ jobs:
             });
 
             const botComment = comments.find(comment => {
-              return comment.user.type === 'Bot' && comment.body.includes('🛠 Terraform Lint & Validate Result');
+              return comment.user.type === 'Bot' && comment.body.includes('🛠 Terraform Plan Result');
             });
 
             // 2. Prepare format of the comment
             const output = `
-              # 🛠 Terraform Lint & Validate Result
+              # 🛠 Terraform Plan Result
 
-              ${process.env.results}
-
-              ---
-              *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*
+              ${{ needs.fmt-validate-plan.outputs.results }}
             `;
 
             // 3. Post or update the comment
