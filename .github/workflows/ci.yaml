@@ -81,6 +81,6 @@ jobs:
         uses: borchero/terraform-plan-comment@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          plan_file: plan.out
+          planfile: plan.out
           header: 📝 Terraform Plan
           working-directory: ${{ github.workspace }}/${{ matrix.env }}
