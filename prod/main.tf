@@ -38,8 +38,7 @@ locals {
   neg_zone         = "asia-east1-a"
 
   # dns
-  domain_name           = "cnad-group3.com"
-  domain_price          = 12
+  domain_name           = "cnad.info"
   dns_managed_zone_name = "${local.prefix}-zone"
 }
 
@@ -106,7 +105,6 @@ module "dns" {
   source = "../modules/dns"
 
   domain_name              = local.domain_name
-  domain_price             = local.domain_price
   dns_managed_zone_name    = local.dns_managed_zone_name
   load_balancer_ip_address = module.loadbalancer.load_balancer_ip
 
