@@ -9,6 +9,8 @@ locals {
     "cloudresourcemanager.googleapis.com",
     "compute.googleapis.com",
     "container.googleapis.com",
+    "dns.googleapis.com",
+    "domain.googleapis.com",
     "servicenetworking.googleapis.com",
     "iam.googleapis.com"
   ]
@@ -85,9 +87,7 @@ module "gke" {
 #   network_self_link = module.network.network_self_link
 #   subnet_self_link  = module.network.subnet_self_link
 #   cluster_name      = module.gke.cluster_name
-#   enable_cdn        = local.enable_cdn
-
-#   depends_on = [module.gcs, module.gke]
+#   depends_on = [module.apis, module.gcs, module.gke]
 # }
 
 # module "dns" {
