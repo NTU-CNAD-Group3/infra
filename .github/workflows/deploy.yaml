@@ -22,6 +22,7 @@ on:
 
 jobs:
   deploy:
+    if: github.event.inputs.is_domain == 'false'
     runs-on: ubuntu-latest
 
     steps:
@@ -47,9 +48,8 @@ jobs:
         working-directory: ${{ github.workspace }}/${{ github.event.inputs.env }}
 
   deploy_domain:
-    runs-on: ubuntu-latest
-    needs: deploy
     if: github.event.inputs.is_domain == 'true'
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout source code
