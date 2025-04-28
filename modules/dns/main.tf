@@ -20,7 +20,7 @@ resource "google_clouddomains_registration" "domain_registration" {
   contact_settings {
     privacy = "REDACTED_CONTACT_DATA"
     registrant_contact {
-      phone_number = "+888-1234-5678"
+      phone_number = "+886912345678"
       email        = "example@example.com"
       postal_address {
         region_code         = "US"
@@ -32,7 +32,7 @@ resource "google_clouddomains_registration" "domain_registration" {
       }
     }
     admin_contact {
-      phone_number = "+888-1234-5678"
+      phone_number = "+886912345678"
       email        = "example@example.com"
       postal_address {
         region_code         = "US"
@@ -44,7 +44,7 @@ resource "google_clouddomains_registration" "domain_registration" {
       }
     }
     technical_contact {
-      phone_number = "+888-1234-5678"
+      phone_number = "+886912345678"
       email        = "example@example.com"
       postal_address {
         region_code         = "US"
