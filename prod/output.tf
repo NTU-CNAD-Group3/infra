@@ -22,30 +22,14 @@ output "bucket_name" {
   value = module.gcs.bucket_name
 }
 
-# output "cluster_name" {
-#   value = module.gke.cluster_name
-# }
+output "cluster_name" {
+  value = module.gke.cluster_name
+}
 
-# output "cluster_master_version" {
-#   value = module.gke.cluster_master_version
-# }
+output "load_balancer_ip" {
+  value = module.loadbalancer.load_balancer_ip
+}
 
-# output "cloudsql_private_ip_address" {
-#   value = module.cloudsql.private_ip_address
-# }
-
-# output "redis_host" {
-#   value = module.memorystore.host
-# }
-
-# output "redis_port" {
-#   value = module.memorystore.port
-# }
-
-# output "load_balancer_ip" {
-#   value = module.loadbalancer.load_balancer_ip
-# }
-
-# output "domain_name" {
-#   value = local.domain_name
-# }
+output "domain_name" {
+  value = local.domain_name
+}
