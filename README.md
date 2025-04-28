@@ -2,6 +2,8 @@
 
 This repository contains the infrastructure code for the project. We use Terraform to manage the infrastructure on GCP.
 
+If you want to deploy the infrastructure on you own, please create the gcs bucket for the terraform backend first. You can find the terraform backend configuration in the `provider.tf` file.
+
 ## Installation
 
 [Install Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli) on your local machine.
@@ -43,8 +45,10 @@ terraform destroy   # Destroy the infrastructure
 
 ## Flow
 
-For now, we only have one environment, which is the prod environment. If you want to modify the infrastructure, you can do it in the `prod` folder and craeate a pull request. Once the pull request is merged, it will be automatically deployed to the prod environment.
+This repo targets to deploy multiple environments, but for now, we only have one environment which is `prod`.
 
-Before merging the pull request, make sure the CI is passing. The CI will run the `tflint`, `terraform fmt`, `terraform validate` and `terraform plan` commands to check if the code is valid and left the comments which describe the changes that will be applied to the infrastructure.
+For the `apply` and `destroy` safety, we separate the alone `domain` resources in its own folder. If you want to deploy the domain resources, please trigger it manually under the `Actions` tab in the repo.
 
-If you want to deploy or destroy it manually, you can do it in the actions tab in the github. You can find the workflow named `Deploy` and `Destroy` in the actions tab. You can select which environment you want to deploy or destroy. The workflow will run the `terraform apply` or `terraform destroy` command in the selected environment.
+If you want to deploy or modify the infra, please craete the PR to the `main` branch, the linter and the terraform plan will be run in the PR. If everything is ok, you can merge the PR to the `main` branch. After that, github actions will run the terraform apply command to deploy the infra automatically.
+
+Besides, we also provide the script to trigger the apply and destroy processes manually. You can find it under the `Actions` tab in the repo. 
