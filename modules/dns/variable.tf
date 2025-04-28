@@ -8,10 +8,6 @@ variable "domain_name" {
   description = "The domain name for the application"
 }
 
-variable "domain_price" {
-  type = number
-}
-
 variable "load_balancer_ip_address" {
   type = string
 }
