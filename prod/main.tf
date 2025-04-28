@@ -2,6 +2,7 @@ locals {
   # common variables
   region = "asia-east1"
   zones  = ["asia-east1-a"]
+  prefix = "cnad-prod"
 
   # apis
   enable_apis = [
@@ -16,14 +17,14 @@ locals {
   ]
 
   # vpc
-  vpc_name = "cnad-prod-network"
+  vpc_name = "${local.prefix}-network"
 
   # frontend bucket
-  frontend_bucket_name = "cnad-prod-frontend"
+  frontend_bucket_name = "${local.prefix}-frontend"
 
   # gke
-  repo_name       = "cnad-prod-repo"
-  cluster_name    = "cnad-prod-gke"
+  repo_name       = "${local.prefix}-repo"
+  cluster_name    = "${local.prefix}-gke"
   cluster_version = "1.32.2-gke.1182003"
   node_count      = 3
   machine_type    = "e2-medium"
@@ -31,7 +32,15 @@ locals {
   disk_size       = 50
 
   # lb
-  # domain_name = "cnad-group3.com"
+  lb_ipv4_name     = "${local.prefix}-lb"
+  gcs_backend_name = "${local.prefix}-gcs-backend"
+  neg_name         = "${local.prefix}-neg"
+  neg_zone         = "asia-east1-a"
+
+  # dns
+  domain_name           = "cnad-group3.com"
+  domain_price          = 12
+  dns_managed_zone_name = "${local.prefix}-zone"
 }
 
 module "apis" {
@@ -77,29 +86,29 @@ module "gke" {
   depends_on = [module.apis, module.vpc]
 }
 
-# module "loadbalancer" {
-#   source = "./modules/lb"
+module "loadbalancer" {
+  source = "../modules/lb"
 
-#   domain_name       = local.domain_name
-#   gcs_bucket_name   = module.gcs.bucket_name
-#   neg_name          = local.neg_name
-#   neg_zone          = local.neg_zone
-#   network_self_link = module.network.network_self_link
-#   subnet_self_link  = module.network.subnet_self_link
-#   cluster_name      = module.gke.cluster_name
-#   depends_on = [module.apis, module.gcs, module.gke]
-# }
+  lb_ipv4_name      = local.lb_ipv4_name
+  gcs_backend_name  = local.gcs_backend_name
+  gcs_bucket_name   = module.gcs.bucket_name
+  neg_name          = local.neg_name
+  neg_zone          = local.neg_zone
+  network_self_link = module.network.vpc_self_link
+  subnet_self_link  = module.network.subnet_self_link
+  cluster_name      = local.cluster_name
+  domain_name       = local.domain_name
 
-# module "dns" {
-#   source = "./modules/dns"
+  depends_on = [module.apis, module.gcs, module.gke]
+}
 
-#   domain                   = local.domain_name
-#   domain_price             = local.domain_price
-#   is_registered            = local.is_registered
-#   load_balancer_ip_address = module.loadbalancer.load_balancer_ip
-#   email                    = local.dns_email
-#   phone_number             = local.dns_phone_number
-#   region_code              = local.dns_region_code
+module "dns" {
+  source = "../modules/dns"
 
-#   depends_on = [module.loadbalancer]
-# }
+  domain_name              = local.domain_name
+  domain_price             = local.domain_price
+  dns_managed_zone_name    = local.dns_managed_zone_name
+  load_balancer_ip_address = module.loadbalancer.load_balancer_ip
+
+  depends_on = [module.apis, module.loadbalancer]
+}
