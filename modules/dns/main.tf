@@ -18,7 +18,7 @@ resource "google_clouddomains_registration" "domain_registration" {
   }
 
   contact_settings {
-    privacy = "PRIVATE_CONTACT_DATA"
+    privacy = "REDACTED_CONTACT_DATA"
     registrant_contact {
       phone_number = "+888-1234-5678"
       email        = "example@example.com"
