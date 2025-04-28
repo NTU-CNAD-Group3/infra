@@ -10,7 +10,7 @@ locals {
     "compute.googleapis.com",
     "container.googleapis.com",
     "dns.googleapis.com",
-    "domain.googleapis.com",
+    "domains.googleapis.com",
     "servicenetworking.googleapis.com",
     "iam.googleapis.com"
   ]
