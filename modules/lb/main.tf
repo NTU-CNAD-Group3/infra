@@ -93,7 +93,7 @@ resource "google_compute_global_forwarding_rule" "default" {
   name       = "https-lb-rule"
   target     = google_compute_target_https_proxy.default.id
   port_range = "443"
-  ip_address = google_compute_global_address.static_ip.address
+  ip_address = google_compute_global_address.lb_ipv4_address.address
 }
 
 # create a target HTTP proxy for the load balancer (testing purposes)
@@ -106,5 +106,5 @@ resource "google_compute_global_forwarding_rule" "http" {
   name       = "http-lb-rule"
   target     = google_compute_target_http_proxy.default.id
   port_range = "80"
-  ip_address = google_compute_global_address.static_ip.address
+  ip_address = google_compute_global_address.lb_ipv4_address.address
 }
