@@ -13,9 +13,9 @@ resource "google_compute_backend_bucket" "gcs_backend" {
 # create a backend service for the GKE cluster
 # you should apply gateway yaml file to the GKE cluster before creating the backend service
 resource "google_compute_network_endpoint_group" "gateway_neg" {
-  name = var.neg_name
-  zone = var.neg_zone
-  network = var.network_self_link
+  name       = var.neg_name
+  zone       = var.neg_zone
+  network    = var.network_self_link
   subnetwork = var.subnet_self_link
 
   network_endpoint_type = "GCE_VM_IP_PORT"
