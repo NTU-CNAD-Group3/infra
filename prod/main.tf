@@ -12,6 +12,7 @@ locals {
     "container.googleapis.com",
     "dns.googleapis.com",
     "domains.googleapis.com",
+    "secretmanager.googleapis.com",
     "servicenetworking.googleapis.com",
     "iam.googleapis.com"
   ]
@@ -83,6 +84,16 @@ module "gke" {
   subnet_secondary_ranges = module.vpc.subnet_secondary_ranges
 
   depends_on = [module.apis, module.vpc]
+}
+
+module "secretmanager" {
+  source = "../modules/secretmanager"
+
+  region        = local.region
+  secret_keys   = keys(var.secrets)
+  secret_values = var.secrets
+
+  depends_on = [module.apis]
 }
 
 module "loadbalancer" {
