@@ -65,6 +65,5 @@ jobs:
           EOF
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
         run: terraform apply -var-file="secrets.tfvars" -auto-approve -input=false
-        working-directory: ${{ matrix.env }}
+        working-directory: ${{ github.workspace }}/${{ matrix.env }}

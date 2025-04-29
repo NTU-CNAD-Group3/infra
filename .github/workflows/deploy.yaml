@@ -43,8 +43,17 @@ jobs:
         run: terraform init -input=false
         working-directory: ${{ github.workspace }}/${{ github.event.inputs.env }}
 
+      - name: Generate secrets.tfvars
+        run: |
+          cat <<EOF > ${{ github.event.inputs.env }}/secrets.tfvars
+          secrets = {
+            "sender-email"           = "${{ secrets.SENDER_EMAIL }}"
+            "sender-email-password"  = "${{ secrets.SENDER_EMAIL_PASSWORD }}"
+          }
+          EOF
+
       - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false
+        run: terraform apply -var-file="secrets.tfvars" -auto-approve -input=false
         working-directory: ${{ github.workspace }}/${{ github.event.inputs.env }}
 
   deploy_domain:
