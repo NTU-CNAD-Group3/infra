@@ -14,6 +14,5 @@ resource "google_secret_manager_secret" "my_secret" {
 resource "google_secret_manager_secret_version" "my_secret_version" {
   for_each       = toset(var.secret_keys)
   secret         = google_secret_manager_secret.my_secret[each.value].id
-  secret_data_wo = base64encode(var.secret_values[each.value])
-  is_secret_data_base64 = true
+  secret_data_wo = var.secret_values[each.value]
 }
