@@ -86,6 +86,15 @@ module "gke" {
   depends_on = [module.apis, module.vpc]
 }
 
+module "secretmanager" {
+  source = "../modules/secretmanager"
+
+  region  = local.region
+  secrets = var.secret
+
+  depends_on = [module.apis]
+}
+
 module "loadbalancer" {
   source = "../modules/lb"
 

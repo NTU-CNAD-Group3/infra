@@ -52,5 +52,3 @@ For the `apply` and `destroy` safety, we separate the alone `domain` resources i
 If you want to deploy or modify the infra, please craete the PR to the `main` branch, the linter and the terraform plan will be run in the PR. If everything is ok, you can merge the PR to the `main` branch. After that, github actions will run the terraform apply command to deploy the infra automatically.
 
 Besides, we also provide the script to trigger the apply and destroy processes manually. You can find it under the `Actions` tab in the repo. 
-
-We also use `secrets management` to handle sensitive information securely, but we do it manually.
