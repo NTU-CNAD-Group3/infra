@@ -12,6 +12,7 @@ locals {
     "container.googleapis.com",
     "dns.googleapis.com",
     "domains.googleapis.com",
+    "secretmanager.googleapis.com",
     "servicenetworking.googleapis.com",
     "iam.googleapis.com"
   ]
