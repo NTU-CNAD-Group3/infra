@@ -8,7 +8,7 @@ variable "secrets" {
   description = "Secret values for the secret manager"
   type        = map(string)
   default = {
-    "sender-email" = "example@example.com"
+    "sender-email"          = "example@example.com"
     "sender-email-password" = "XXXX XXXX XXXX XXXX"
   }
 }
