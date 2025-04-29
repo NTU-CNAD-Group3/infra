@@ -89,8 +89,9 @@ module "gke" {
 module "secretmanager" {
   source = "../modules/secretmanager"
 
-  region  = local.region
-  secrets = var.secret
+  region        = local.region
+  secret_keys   = keys(var.secrets)
+  secret_values = var.secrets       
 
   depends_on = [module.apis]
 }

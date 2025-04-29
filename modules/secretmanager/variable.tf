@@ -1,7 +1,10 @@
-variable "secrets" {
-  description = "A map of secrets to be created in Secret Manager"
-  type        = map(string)
-  sensitive   = true
+variable "secret_keys" {
+  type = list(string)
+}
+
+variable "secret_values" {
+  type      = map(string)
+  sensitive = true
 }
 
 variable "region" {

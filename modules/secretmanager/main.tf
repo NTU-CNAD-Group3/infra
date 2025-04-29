@@ -1,6 +1,6 @@
 resource "google_secret_manager_secret" "my_secret" {
-  for_each  = var.secrets
-  secret_id = each.key
+  for_each  = toset(var.secret_keys)
+  secret_id = each.value
 
   replication {
     user_managed {
@@ -12,9 +12,9 @@ resource "google_secret_manager_secret" "my_secret" {
 }
 
 resource "google_secret_manager_secret_version" "my_secret_version" {
-  for_each    = var.secrets
-  secret      = google_secret_manager_secret.my_secret[each.key].id
-  secret_data = var.secrets[each.key]
+  for_each    = toset(var.secret_keys)
+  secret      = google_secret_manager_secret.my_secret[each.value].id
+  secret_data = var.secret_values[each.value]
 
   is_secret_data_base64 = true
 }

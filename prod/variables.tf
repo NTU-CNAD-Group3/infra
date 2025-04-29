@@ -4,7 +4,7 @@ variable "project_id" {
   default     = "cnad-group3"
 }
 
-variable "secret" {
+variable "secrets" {
   description = "Secret values for the secret manager"
   type        = map(string)
 }
