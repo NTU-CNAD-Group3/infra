@@ -91,7 +91,7 @@ module "secretmanager" {
 
   region        = local.region
   secret_keys   = keys(var.secrets)
-  secret_values = var.secrets       
+  secret_values = var.secrets
 
   depends_on = [module.apis]
 }
