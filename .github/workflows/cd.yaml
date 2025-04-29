@@ -55,7 +55,16 @@ jobs:
         run: terraform init -input=false
         working-directory: ${{ github.workspace }}/${{ matrix.env }}
 
-      - name: Terraform Apply - ${{ matrix.env }}
+      - name: Generate secrets.tfvars
+        run: |
+          cat <<EOF > ${{ matrix.env }}/secrets.tfvars
+          secrets = {
+            "sender-email"           = "${{ secrets.SENDER_EMAIL }}"
+            "sender-email-password"  = "${{ secrets.SENDER_EMAIL_PASSWORD }}"
+          }
+          EOF
+
+      - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve -input=false
-        working-directory: ${{ github.workspace }}/${{ matrix.env }}
+        run: terraform apply -var-file="secrets.tfvars" -auto-approve -input=false
+        working-directory: ${{ matrix.env }}
