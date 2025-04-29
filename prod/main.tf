@@ -70,6 +70,7 @@ module "gcs" {
 module "gke" {
   source = "../modules/gke"
 
+  project_id              = var.project_id
   region                  = local.region
   node_locations          = local.zones
   repo_name               = local.repo_name
