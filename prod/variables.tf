@@ -11,5 +11,6 @@ variable "secrets" {
     "sender-email"          = "example@example.com"
     "sender-email-password" = "XXXX XXXX XXXX XXXX"
     "jwt-token"             = "XXXXXXX"
+    "secret-key"            = "XXXXXXX"
   }
 }
