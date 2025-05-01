@@ -23,6 +23,30 @@ locals {
   # frontend bucket
   frontend_bucket_name = "${local.prefix}-frontend"
 
+  # secrets-manager
+  services = {
+    gateway = {
+      k8s_namespace      = "gateway"
+      k8s_serviceaccount = "ksa-gateway"
+      secret_ids         = ["secret-key"]
+    }
+    notification = {
+      k8s_namespace      = "notification"
+      k8s_serviceaccount = "ksa-notification"
+      secret_ids         = ["sender-email", "sender-email-password"]
+    }
+    auth = {
+      k8s_namespace      = "auth"
+      k8s_serviceaccount = "ksa-auth"
+      secret_ids         = ["jwt-token"]
+    }
+    backend = {
+      k8s_namespace      = "backend"
+      k8s_serviceaccount = "ksa-backend"
+      secret_ids         = ["secret-key"]
+    }
+  }
+
   # gke
   repo_name       = "${local.prefix}-repo"
   cluster_name    = "${local.prefix}-gke"
@@ -69,9 +93,12 @@ module "gcs" {
 module "secretmanager" {
   source = "../modules/secretmanager"
 
-  region        = local.region
-  secret_keys   = keys(var.secrets)
-  secret_values = var.secrets
+  project_id     = var.project_id
+  project_number = var.project_number
+  region         = local.region
+  secret_keys    = keys(var.secrets)
+  secret_values  = var.secrets
+  services       = local.services
 
   depends_on = [module.apis]
 }
