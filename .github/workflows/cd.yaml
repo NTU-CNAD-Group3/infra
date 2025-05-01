@@ -61,6 +61,7 @@ jobs:
           secrets = {
             "sender-email"           = "${{ secrets.SENDER_EMAIL }}"
             "sender-email-password"  = "${{ secrets.SENDER_EMAIL_PASSWORD }}"
+            "jwt-token"              = "${{ secrets.JWT_TOKEN }}"
           }
           EOF
 
