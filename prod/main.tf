@@ -66,6 +66,15 @@ module "gcs" {
 
   depends_on = [module.apis]
 }
+module "secretmanager" {
+  source = "../modules/secretmanager"
+
+  region        = local.region
+  secret_keys   = keys(var.secrets)
+  secret_values = var.secrets
+
+  depends_on = [module.apis]
+}
 
 module "gke" {
   source = "../modules/gke"
@@ -87,15 +96,6 @@ module "gke" {
   depends_on = [module.apis, module.vpc]
 }
 
-module "secretmanager" {
-  source = "../modules/secretmanager"
-
-  region        = local.region
-  secret_keys   = keys(var.secrets)
-  secret_values = var.secrets
-
-  depends_on = [module.apis]
-}
 
 module "loadbalancer" {
   source = "../modules/lb"
