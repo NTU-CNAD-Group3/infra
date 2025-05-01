@@ -33,3 +33,7 @@ output "load_balancer_ip" {
 output "domain_name" {
   value = local.domain_name
 }
+
+output "gsa_email" {
+  value = module.gke.gsa_email
+}
