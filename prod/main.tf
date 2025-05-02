@@ -54,7 +54,7 @@ locals {
   node_count      = 5
   machine_type    = "e2-medium"
   disk_type       = "pd-standard"
-  disk_size       = 50
+  disk_size       = 20
 
   # lb
   create_neg       = false
