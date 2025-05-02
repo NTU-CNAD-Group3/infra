@@ -50,7 +50,7 @@ variable "services" {
     gateway = {
       k8s_namespace      = "gateway"
       k8s_serviceaccount = "ksa-gateway"
-      secret_ids         = ["secret-key"]
+      secret_ids         = ["secret-key", "jwt-token"]
     }
     notification = {
       k8s_namespace      = "notification"
