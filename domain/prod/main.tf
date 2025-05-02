@@ -12,13 +12,14 @@ resource "google_clouddomains_registration" "domain_registration" {
     units         = local.domain_price
   }
 
+  // The name servers are the output of the DNS module
   dns_settings {
     custom_dns {
       name_servers = [
-        "ns-cloud-a1.googledomains.com.",
-        "ns-cloud-a2.googledomains.com.",
-        "ns-cloud-a3.googledomains.com.",
-        "ns-cloud-a4.googledomains.com."
+        "ns-cloud-c1.googledomains.com.",
+        "ns-cloud-c2.googledomains.com.",
+        "ns-cloud-c3.googledomains.com.",
+        "ns-cloud-c4.googledomains.com.",
       ]
     }
   }
