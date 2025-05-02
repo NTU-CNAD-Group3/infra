@@ -4,6 +4,13 @@ variable "project_id" {
   default     = "cnad-group3"
 }
 
+variable "project_number" {
+  description = "GCP Project Number"
+  type        = string
+  default     = "640251243813"
+
+}
+
 variable "secrets" {
   description = "Secret values for the secret manager"
   type        = map(string)

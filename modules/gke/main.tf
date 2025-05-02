@@ -17,18 +17,6 @@ resource "google_artifact_registry_repository_iam_member" "main_repo_uploader" {
   member     = "serviceAccount:${google_service_account.artifact_registry_sa.email}"
 }
 
-# create the service account for gke to use secret manager
-resource "google_service_account" "secret_manager_sa" {
-  account_id   = "secret-manager-sa"
-  display_name = "Secret Manager Service Account"
-}
-
-resource "google_project_iam_member" "secret_manager" {
-  project = var.project_id
-  role    = "roles/secretmanager.secretAccessor"
-  member  = "serviceAccount:${google_service_account.secret_manager_sa.email}"
-}
-
 # create cluster
 resource "google_container_cluster" "primary" {
   name = var.cluster_name
