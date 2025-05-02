@@ -25,7 +25,7 @@ resource "google_container_cluster" "primary" {
   min_master_version = var.cluster_version
 
   remove_default_node_pool = true
-  initial_node_count       = var.node_count
+  initial_node_count       = 1
 
   network    = var.network_self_link
   subnetwork = var.subnet_self_link
@@ -46,7 +46,6 @@ resource "google_container_cluster" "primary" {
   secret_manager_config {
     enabled = true
   }
-
 
   deletion_protection = false
 }
