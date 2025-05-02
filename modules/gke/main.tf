@@ -14,7 +14,7 @@ resource "google_artifact_registry_repository" "registry" {
   }
 
   cleanup_policies {
-    id     = "keep-3"
+    id     = "keep-2"
     action = "KEEP"
     most_recent_versions {
       keep_count = 2
@@ -25,7 +25,8 @@ resource "google_artifact_registry_repository" "registry" {
     id     = "delete-all"
     action = "DELETE"
     condition {
-      tag_state = "ANY"
+      tag_state  = "ANY"
+      older_than = "1d"
     }
   }
 }
