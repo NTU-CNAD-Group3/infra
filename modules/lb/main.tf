@@ -1,3 +1,7 @@
+locals {
+  neg_id = var.create_neg ? google_compute_network_endpoint_group.gateway_neg[0].id : data.google_compute_network_endpoint_group.gateway_neg[0].id
+}
+
 # reserve a static IP address for the load balancer
 resource "google_compute_global_address" "lb_ipv4_address" {
   name = var.lb_ipv4_name
@@ -13,6 +17,7 @@ resource "google_compute_backend_bucket" "gcs_backend" {
 # create a backend service for the GKE cluster
 # you should apply gateway yaml file to the GKE cluster before creating the backend service
 resource "google_compute_network_endpoint_group" "gateway_neg" {
+  count      = var.create_neg ? 1 : 0
   name       = var.neg_name
   zone       = var.neg_zone
   network    = var.network_self_link
@@ -20,6 +25,12 @@ resource "google_compute_network_endpoint_group" "gateway_neg" {
 
   network_endpoint_type = "GCE_VM_IP_PORT"
   default_port          = 80
+}
+
+data "google_compute_network_endpoint_group" "gateway_neg" {
+  count = var.create_neg ? 0 : 1
+  name  = var.neg_name
+  zone  = var.neg_zone
 }
 
 resource "google_compute_health_check" "gke_health_check" {
@@ -41,7 +52,7 @@ resource "google_compute_backend_service" "gke_backend" {
   timeout_sec = 10
 
   backend {
-    group                 = google_compute_network_endpoint_group.gateway_neg.id
+    group                 = local.neg_id
     balancing_mode        = "RATE"
     max_rate_per_endpoint = 100
   }

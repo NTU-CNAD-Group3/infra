@@ -1,3 +1,9 @@
+variable "create_neg" {
+  description = "Flag to create a network endpoint group"
+  type        = bool
+  default     = false
+}
+
 variable "lb_ipv4_name" {
   description = "The name of the load balancer IPv4 address"
   type        = string
