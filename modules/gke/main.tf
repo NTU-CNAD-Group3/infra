@@ -4,6 +4,30 @@ resource "google_artifact_registry_repository" "registry" {
   location      = var.region
 
   format = "DOCKER"
+
+  cleanup_policies {
+    id     = "keep-latest"
+    action = "KEEP"
+    condition {
+      tag_prefixes = "latest"
+    }
+  }
+
+  cleanup_policies {
+    id     = "keep-3"
+    action = "KEEP"
+    most_recent_versions {
+      keep_count = 2
+    }
+  }
+
+  cleanup_policies {
+    id     = "delete-all"
+    action = "DELETE"
+    condition {
+      tag_state = "ANY"
+    }
+  }
 }
 
 # create the service account for gke to read the images from Artifact Registry
