@@ -12,18 +12,19 @@ resource "google_clouddomains_registration" "domain_registration" {
     units         = local.domain_price
   }
 
-  // The name servers are the output of the DNS module
+  #  The name servers are the output of the DNS module
   dns_settings {
     custom_dns {
       name_servers = [
-        "ns-cloud-c1.googledomains.com.",
-        "ns-cloud-c2.googledomains.com.",
-        "ns-cloud-c3.googledomains.com.",
-        "ns-cloud-c4.googledomains.com.",
+        "ns-cloud-c1.googledomains.com",
+        "ns-cloud-c2.googledomains.com",
+        "ns-cloud-c3.googledomains.com",
+        "ns-cloud-c4.googledomains.com",
       ]
     }
   }
 
+  # ensure the domain is registered with the correct email
   contact_settings {
     privacy = "REDACTED_CONTACT_DATA"
     registrant_contact {
