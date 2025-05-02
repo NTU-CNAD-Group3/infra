@@ -2,13 +2,13 @@
 
 This repository contains the infrastructure code for the project. We use Terraform to manage the infrastructure on GCP.
 
-If you want to deploy the infrastructure on you own, please create the gcs bucket for the terraform backend first. You can find the terraform backend configuration in the `provider.tf` file.
+If you want to deploy the infrastructure on your own, please create the gcs bucket for the terraform backend first. You can find the terraform backend configuration in the `provider.tf` file.
 
 ## Installation
 
 [Install Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli) on your local machine.
 
-For windows users, you can download the Terrafrom by chocolatey. Run the following command in the terminal.
+For windows users, you can download the Terraform by chocolatey. Run the following command in the terminal.
 
 ```bash
 choco install terraform
@@ -43,12 +43,22 @@ terraform apply     # Apply the infrastructure changes
 terraform destroy   # Destroy the infrastructure
 ```
 
-## Flow
+## Environment
 
-This repo targets to deploy multiple environments, but for now, we only have one environment which is `prod`.
+For now, we only have one environment, which is `prod`. The `prod` environment is defined in the `prod` folder and the domain is in the `domain/prod` folder.
 
-For the `apply` and `destroy` safety, we separate the alone `domain` resources in its own folder. If you want to deploy the domain resources, please trigger it manually under the `Actions` tab in the repo.
+There are three things you need to care about when you are working on reproducing the infrastructure.
 
-If you want to deploy or modify the infra, please craete the PR to the `main` branch, the linter and the terraform plan will be run in the PR. If everything is ok, you can merge the PR to the `main` branch. After that, github actions will run the terraform apply command to deploy the infra automatically.
+- We recommend not managing domain resources via Terraform, because its lifecycle is very hard to maintain.
+- You should not use terraform to create the network endpoint groups for k8s, you should use k8s built in tools to manage the network endpoint groups. Because k8s can add or remove the endpoints automatically, but terraform cannot. So you need to use k8s to manage the network endpoint groups. Please see [terrafrom-neg](https://github.com/NTU-CNAD-Group3/infra/blob/93f0a0b02c80e544eaf8010793f3efab31ecdb29/modules/lb/main.tf#L30) and [k8s-neg](https://github.com/NTU-CNAD-Group3/k8s/blob/a79b1798c80457ed648795a92be64b2dc2dd5ea5/prod/gateway/service.yaml#L7)
+- I use `google-secret-manager` to manage the secrets in the GCP rather than using `k8s-secret`. Because `k8s-secret` is not a good way to manage the secrets. The secrets are stored in the etcd and they are not encrypted. Make sure that you have created the corresponding secrets and service accounts in both gcp and k8s. You can find the demo in [terraform](https://github.com/NTU-CNAD-Group3/infra/blob/main/modules/secretmanager/main.tf), [k8s-sa](https://github.com/NTU-CNAD-Group3/k8s/blob/main/prod/gateway/service-account.yaml) and [k8s-secret-provider](https://github.com/NTU-CNAD-Group3/k8s/blob/main/prod/gateway/secret-provider.yaml).
 
-Besides, we also provide the script to trigger the apply and destroy processes manually. You can find it under the `Actions` tab in the repo. 
+The following is the module list of the project.
+
+- `apis` : Enable all the apis for the project.
+- `vpc` : Create the vpc and subnets for the project.
+- `gcs` : Store the frontend code (React)
+- `secretmanager` : Create the secret manager for the project.
+- `gke` : Create the GKE cluster for the project. (backend)
+- `loadbalancer` : Create the load balancer to navigate the traffic to the gcs (frontend) and gke (backend).
+- `dns` : Create the dns for the domain.
