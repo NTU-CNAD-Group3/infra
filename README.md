@@ -49,9 +49,14 @@ For now, we only have one environment, which is `prod`. The `prod` environment i
 
 There are three things you need to care about when you are working on reproducing the infrastructure.
 
-- We recommend not managing domain resources via Terraform, because its lifecycle is very hard to maintain.
-- You should not use terraform to create the network endpoint groups for k8s, you should use k8s built in tools to manage the network endpoint groups. Because k8s can add or remove the endpoints automatically, but terraform cannot. So you need to use k8s to manage the network endpoint groups. Please see [terrafrom-neg](https://github.com/NTU-CNAD-Group3/infra/blob/93f0a0b02c80e544eaf8010793f3efab31ecdb29/modules/lb/main.tf#L30) and [k8s-neg](https://github.com/NTU-CNAD-Group3/k8s/blob/a79b1798c80457ed648795a92be64b2dc2dd5ea5/prod/gateway/service.yaml#L7)
-- I use `google-secret-manager` to manage the secrets in the GCP rather than using `k8s-secret`. Because `k8s-secret` is not a good way to manage the secrets. The secrets are stored in the etcd and they are not encrypted. Make sure that you have created the corresponding secrets and service accounts in both gcp and k8s. You can find the demo in [terraform](https://github.com/NTU-CNAD-Group3/infra/blob/main/modules/secretmanager/main.tf), [k8s-sa](https://github.com/NTU-CNAD-Group3/k8s/blob/main/prod/gateway/service-account.yaml) and [k8s-secret-provider](https://github.com/NTU-CNAD-Group3/k8s/blob/main/prod/gateway/secret-provider.yaml).
+- `Domain Management`: We recommend not managing domain resources via Terraform, as their lifecycle is difficult to maintain and may lead to unexpected behaviors.
+- `Network Endpoint Groups (NEGs)`: You should avoid using Terraform to create Network Endpoint Groups (NEGs) for Kubernetes. Instead, rely on Kubernetes' built-in tools, which can dynamically add or remove endpoints as needed — a capability that Terraform lacks. Please refer to the examples below:
+  - [terrafrom-neg](https://github.com/NTU-CNAD-Group3/infra/blob/93f0a0b02c80e544eaf8010793f3efab31ecdb29/modules/lb/main.tf#L30)
+  - [k8s-neg](https://github.com/NTU-CNAD-Group3/k8s/blob/a79b1798c80457ed648795a92be64b2dc2dd5ea5/prod/gateway/service.yaml#L7)
+- `Secrets Management`: We use Google Secret Manager to manage secrets in GCP, rather than using k8s-secret, since secrets in Kubernetes are stored in etcd and are not encrypted by default. Ensure that the corresponding secrets and service accounts are properly created in both GCP and Kubernetes. You can find reference implementations in the following files:
+  - [terraform](https://github.com/NTU-CNAD-Group3/infra/blob/main/modules/secretmanager/main.tf)
+  - [k8s-sa](https://github.com/NTU-CNAD-Group3/k8s/blob/main/prod/gateway/service-account.yaml)
+  - [k8s-secret-provider](https://github.com/NTU-CNAD-Group3/k8s/blob/main/prod/gateway/secret-provider.yaml).
 
 The following is the module list of the project.
 
