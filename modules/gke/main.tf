@@ -9,7 +9,7 @@ resource "google_artifact_registry_repository" "registry" {
     id     = "keep-latest"
     action = "KEEP"
     condition {
-      tag_prefixes = "latest"
+      tag_prefixes = ["latest"]
     }
   }
 
