@@ -51,7 +51,7 @@ locals {
   repo_name       = "${local.prefix}-repo"
   cluster_name    = "${local.prefix}-gke"
   cluster_version = "1.32.2-gke.1182003"
-  node_count      = 3
+  node_count      = 5
   machine_type    = "e2-medium"
   disk_type       = "pd-standard"
   disk_size       = 50
