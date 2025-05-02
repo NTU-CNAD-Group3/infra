@@ -37,3 +37,8 @@ output "domain_name" {
 output "gsa_email" {
   value = module.secretmanager.gsa_emails
 }
+
+output "name_servers" {
+  value = module.dns.name_servers
+  description = "The list of GCP name servers for the managed DNS zone."
+}
