@@ -6,6 +6,14 @@ resource "google_artifact_registry_repository" "registry" {
   format = "DOCKER"
 
   cleanup_policies {
+    id     = "delete-all"
+    action = "DELETE"
+    condition {
+      tag_state  = "ANY"
+    }
+  }
+
+  cleanup_policies {
     id     = "keep-latest"
     action = "KEEP"
     condition {
@@ -14,19 +22,10 @@ resource "google_artifact_registry_repository" "registry" {
   }
 
   cleanup_policies {
-    id     = "keep-2"
+    id     = "keep-2-latest"
     action = "KEEP"
     most_recent_versions {
       keep_count = 2
-    }
-  }
-
-  cleanup_policies {
-    id     = "delete-all"
-    action = "DELETE"
-    condition {
-      tag_state  = "ANY"
-      older_than = "1d"
     }
   }
 }
