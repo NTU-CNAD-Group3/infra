@@ -9,7 +9,7 @@ resource "google_artifact_registry_repository" "registry" {
     id     = "delete-all"
     action = "DELETE"
     condition {
-      tag_state  = "ANY"
+      tag_state = "ANY"
     }
   }
 
