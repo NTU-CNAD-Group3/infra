@@ -52,7 +52,7 @@ locals {
   cluster_name    = "${local.prefix}-gke"
   cluster_version = "1.32.2-gke.1182003"
   node_count      = 4
-  machine_type    = "e2-medium"
+  machine_type    = "e2-highcpu-4"
   disk_type       = "pd-standard"
   disk_size       = 20
 
