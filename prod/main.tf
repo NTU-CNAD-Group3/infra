@@ -60,7 +60,7 @@ locals {
   create_neg       = false
   lb_ipv4_name     = "${local.prefix}-lb"
   gcs_backend_name = "${local.prefix}-gcs-backend"
-  neg_name         = "${local.prefix}-neg"
+  neg_name         = "ingress-http-neg"
   neg_zone         = "asia-east1-a"
 
   # dns
