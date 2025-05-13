@@ -18,21 +18,6 @@ variable "gke_backend_name" {
   type        = string
 }
 
-variable "network_self_link" {
-  description = "The self link of the network"
-  type        = string
-}
-
-variable "subnet_self_link" {
-  description = "The self link of the subnet"
-  type        = string
-}
-
-variable "cluster_name" {
-  description = "The name of the GKE cluster"
-  type        = string
-}
-
 variable "domain_name" {
   description = "The domain name for the application"
   type        = string
