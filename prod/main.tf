@@ -132,9 +132,6 @@ module "loadbalancer" {
   gcs_bucket_name   = module.gcs.bucket_name
   neg_name          = local.neg_name
   neg_zone          = local.neg_zone
-  network_self_link = module.vpc.vpc_self_link
-  subnet_self_link  = module.vpc.subnet_self_link
-  cluster_name      = local.cluster_name
   domain_name       = local.domain_name
 
   depends_on = [module.apis, module.gcs, module.gke]
