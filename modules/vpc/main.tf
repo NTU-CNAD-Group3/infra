@@ -54,7 +54,7 @@ resource "google_compute_firewall" "allow_health_check" {
 
   allow {
     protocol = "tcp"
-    ports    = ["80, 15021"]
+    ports    = ["80", "15021"]
   }
   # defaul gcp health check ip ranges
   source_ranges = [
