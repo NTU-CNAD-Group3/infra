@@ -57,10 +57,9 @@ locals {
   disk_size       = 20
 
   # lb
-  create_neg       = false
   lb_ipv4_name     = "${local.prefix}-lb"
   gcs_backend_name = "${local.prefix}-gcs-backend"
-  neg_name         = "${local.prefix}-http-neg"
+  neg_name         = "k8s1-c45cb3af-istio-system-istio-ingressgateway-80-a1483260"
   neg_zone         = "asia-east1-a"
 
   # dns
@@ -128,16 +127,13 @@ module "gke" {
 module "loadbalancer" {
   source = "../modules/lb"
 
-  create_neg        = local.create_neg
-  lb_ipv4_name      = local.lb_ipv4_name
-  gcs_backend_name  = local.gcs_backend_name
-  gcs_bucket_name   = module.gcs.bucket_name
-  neg_name          = local.neg_name
-  neg_zone          = local.neg_zone
-  network_self_link = module.vpc.vpc_self_link
-  subnet_self_link  = module.vpc.subnet_self_link
-  cluster_name      = local.cluster_name
-  domain_name       = local.domain_name
+  lb_ipv4_name     = local.lb_ipv4_name
+  gcs_backend_name = local.gcs_backend_name
+  gcs_bucket_name  = module.gcs.bucket_name
+  cluster_name     = module.gke.cluster_name
+  neg_name         = local.neg_name
+  neg_zone         = local.neg_zone
+  domain_name      = local.domain_name
 
   depends_on = [module.apis, module.gcs, module.gke]
 }
