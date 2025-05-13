@@ -59,7 +59,7 @@ locals {
   # lb
   lb_ipv4_name     = "${local.prefix}-lb"
   gcs_backend_name = "${local.prefix}-gcs-backend"
-  neg_name         = "k8s1-c45cb3af-istio-system-istio-ingressgateway-80-a1483260"
+  neg_name         = "k8s1-c45cb3af-istio-system-istio-ingressgateway-8080-fd8e08a8"
   neg_zone         = "asia-east1-a"
 
   # dns
