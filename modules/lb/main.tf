@@ -11,8 +11,8 @@ resource "google_compute_backend_bucket" "gcs_backend" {
 }
 
 data "google_compute_network_endpoint_group" "gateway_neg" {
-  name  = var.neg_name
-  zone  = var.neg_zone
+  name = var.neg_name
+  zone = var.neg_zone
 }
 
 resource "google_compute_health_check" "gke_health_check" {
