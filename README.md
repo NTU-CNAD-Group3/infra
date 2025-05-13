@@ -4,6 +4,10 @@ This repository contains the infrastructure code for the project. We use Terrafo
 
 If you want to deploy the infrastructure on your own, please create the gcs bucket for the terraform backend first. You can find the terraform backend configuration in the `provider.tf` file.
 
+## Cloud Architecture
+
+![Cloud Architecture](/docs/architecture.png)
+
 ## Installation
 
 [Install Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli) on your local machine.
