@@ -35,12 +35,12 @@ To authenticate with GCP in github actions, you need to create a service account
 Here are some useful Terraform commands :
 
 ```bash
-terraform init      # Initialize the Terraform and download the provider plugins
-terraform fmt       # Format the Terraform configuration
-terraform validate  # Validate the Terraform configuration
-terraform plan      # Plan the infrastructure changes
-terraform apply     # Apply the infrastructure changes
-terraform destroy   # Destroy the infrastructure
+terraform init                  # Initialize the Terraform and download the provider plugins
+terraform fmt --recursive       # Format the Terraform configuration
+terraform validate              # Validate the Terraform configuration
+terraform plan --out plan.out   # Plan the infrastructure changes
+terraform apply                 # Apply the infrastructure changes
+terraform destroy               # Destroy the infrastructure
 ```
 
 ## Environment
@@ -51,12 +51,15 @@ There are three things you need to care about when you are working on reproducin
 
 - `Domain Management`: We recommend not managing domain resources via Terraform, as their lifecycle is difficult to maintain and may lead to unexpected behaviors.
 - `Network Endpoint Groups (NEGs)`: You should avoid using Terraform to create Network Endpoint Groups (NEGs) for Kubernetes. Instead, rely on Kubernetes' built-in tools, which can dynamically add or remove endpoints as needed — a capability that Terraform lacks. Please refer to the examples below:
-  - [terrafrom-neg](https://github.com/NTU-CNAD-Group3/infra/blob/93f0a0b02c80e544eaf8010793f3efab31ecdb29/modules/lb/main.tf#L30)
-  - [k8s-neg](https://github.com/NTU-CNAD-Group3/k8s/blob/a79b1798c80457ed648795a92be64b2dc2dd5ea5/prod/gateway/service.yaml#L7)
+  - [terrafrom-neg](https://github.com/NTU-CNAD-Group3/infra/blob/ffed62aa466bf53935bc8eadf4524934ad42ee7d/modules/lb/main.tf#L13)
+  - [k8s-neg](https://github.com/NTU-CNAD-Group3/k8s/blob/main/prod/istio/init/istio-operator.yaml)
 - `Secrets Management`: We use Google Secret Manager to manage secrets in GCP, rather than using k8s-secret, since secrets in Kubernetes are stored in etcd and are not encrypted by default. Ensure that the corresponding secrets and service accounts are properly created in both GCP and Kubernetes. You can find reference implementations in the following files:
+
   - [terraform](https://github.com/NTU-CNAD-Group3/infra/blob/main/modules/secretmanager/main.tf)
   - [k8s-sa](https://github.com/NTU-CNAD-Group3/k8s/blob/main/prod/gateway/service-account.yaml)
   - [k8s-secret-provider](https://github.com/NTU-CNAD-Group3/k8s/blob/main/prod/gateway/secret-provider.yaml).
+
+  Although I use secret manager in terraform, I recommend you to do it manually in GCP because it's easier to manage.
 
 The following is the module list of the project.
 
