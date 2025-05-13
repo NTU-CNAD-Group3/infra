@@ -1,7 +1,3 @@
-locals {
-  neg_id = var.create_neg ? google_compute_network_endpoint_group.gateway_neg[0].id : data.google_compute_network_endpoint_group.gateway_neg[0].id
-}
-
 # reserve a static IP address for the load balancer
 resource "google_compute_global_address" "lb_ipv4_address" {
   name = var.lb_ipv4_name
@@ -14,51 +10,10 @@ resource "google_compute_backend_bucket" "gcs_backend" {
   enable_cdn  = false
 }
 
-# create a backend service for the GKE cluster
-# you should apply gateway yaml file to the GKE cluster before creating the backend service
-resource "google_compute_network_endpoint_group" "gateway_neg" {
-  count      = var.create_neg ? 1 : 0
-  name       = var.neg_name
-  zone       = var.neg_zone
-  network    = var.network_self_link
-  subnetwork = var.subnet_self_link
-
-  network_endpoint_type = "GCE_VM_IP_PORT"
-  default_port          = 80
+data "google_compute_backend_service" "gke_backend" {
+  name = var.gke_backend_name
 }
 
-data "google_compute_network_endpoint_group" "gateway_neg" {
-  count = var.create_neg ? 0 : 1
-  name  = var.neg_name
-  zone  = var.neg_zone
-}
-
-resource "google_compute_health_check" "gke_health_check" {
-  name                = "${var.cluster_name}-health-check"
-  check_interval_sec  = 5
-  timeout_sec         = 5
-  healthy_threshold   = 2
-  unhealthy_threshold = 2
-
-  http_health_check {
-    port_specification = "USE_SERVING_PORT"
-    request_path       = "/api/healthy"
-  }
-}
-
-resource "google_compute_backend_service" "gke_backend" {
-  name        = "${var.cluster_name}-backend"
-  protocol    = "HTTP"
-  timeout_sec = 10
-
-  backend {
-    group                 = local.neg_id
-    balancing_mode        = "RATE"
-    max_rate_per_endpoint = 100
-  }
-
-  health_checks = [google_compute_health_check.gke_health_check.id]
-}
 
 # create a URL map for the load balancer
 resource "google_compute_url_map" "default" {
@@ -81,7 +36,7 @@ resource "google_compute_url_map" "default" {
 
     path_rule {
       paths   = ["/api", "/api/*"]
-      service = google_compute_backend_service.gke_backend.id
+      service = data.google_compute_backend_service.gke_backend.id
     }
   }
 }
