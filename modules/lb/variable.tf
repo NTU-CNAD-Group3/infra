@@ -13,6 +13,11 @@ variable "gcs_bucket_name" {
   type        = string
 }
 
+variable "cluster_name" {
+  description = "The name of the GKE cluster"
+  type        = string
+}
+
 variable "neg_name" {
   description = "The name of the network endpoint group"
   type        = string

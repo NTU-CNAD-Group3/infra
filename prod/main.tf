@@ -130,6 +130,7 @@ module "loadbalancer" {
   lb_ipv4_name     = local.lb_ipv4_name
   gcs_backend_name = local.gcs_backend_name
   gcs_bucket_name  = module.gcs.bucket_name
+  cluster_name     = module.gke.cluster_name
   neg_name         = local.neg_name
   neg_zone         = local.neg_zone
   domain_name      = local.domain_name
