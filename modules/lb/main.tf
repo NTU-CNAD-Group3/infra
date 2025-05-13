@@ -23,8 +23,8 @@ resource "google_compute_health_check" "gke_health_check" {
   unhealthy_threshold = 2
 
   http_health_check {
-    port_specification = "USE_SERVING_PORT"
-    request_path       = "/healthz/ready"
+    port         = 15021
+    request_path = "/healthz/ready"
   }
 }
 
