@@ -85,7 +85,7 @@ resource "google_container_node_pool" "primary_nodes" {
 
   node_config {
     machine_type    = var.machine_type
-    preemptible     = true
+    preemptible     = false
     disk_size_gb    = var.disk_size_gb
     disk_type       = var.disk_type
     service_account = google_service_account.artifact_registry_sa.email
